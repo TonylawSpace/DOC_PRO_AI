@@ -11,11 +11,11 @@ import json
 
 import numpy as np
 import collections
-#from logger import logger  #import logging #日志
+#from logger import logger  #import logging # 日誌
 
 from flask import Flask, request, send_from_directory,Response
 from flask_cors import CORS
-# anti api filename attack
+# anti api filename attack 防止文件名稱攻擊
 from werkzeug.utils import secure_filename
 
 # TF-IDF（Term Frequency-Inverse Document Frequency）
@@ -30,7 +30,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 host = '0.0.0.0'
 port = 5600
 
-# 上传文件大小限制
+# 上傳檔案大小限制
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 # 關閉ascii編碼方式-返回中文
@@ -40,6 +40,34 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
 # Allowed upload file types and storage locations
 ALLOWED_EXTENSIONS = set(['cv', 'xls', 'xlsx','txt'])
 UPLOAD_FOLDER = './files/'
+
+# default hoe page
+@app.route('/', methods=['GET'])
+@app.route('/index', methods=['GET'])
+def hello(): return  '''
+    <!doctype html>
+    <title>KeyWord Extraction</title>
+    <head>
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Flask with Bootstrap</title>  
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> 
+    </head>
+    <body>
+    <h1>KeyWord Extraction</h1>
+      <ul class="list-unstyled">
+        <li>
+           <span> NodeJS Client App:  http://localhost:4200
+        </li>
+        <li>
+            <a href="/detect" class="h3">Detect</a>
+        </li> 
+      </ul>
+       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script> 
+       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+    </body>
+    </html>
+    '''
 
 # File upload processing method
 @app.route('/detect', methods=['POST', 'GET'])
@@ -120,6 +148,7 @@ def clean():
                  'run_status': True
             }
 
+# 用於限時清理臨時文件 只保留30分鐘內的文件
 def thread_1():
 
     while(1):
@@ -148,23 +177,23 @@ def keyword_extraction(text_content):
     # 初始化TfidfVectorizer
     tfidf_vectorizer = TfidfVectorizer()
 
-    # 计算TF-IDF矩阵
+    # 計算TF-IDF MATRIX
     tfidf_matrix = tfidf_vectorizer.fit_transform(preprocessed_docs)
 
-    # 获取TF-IDF特征名称
+    # Get TF-IDF feature names
     feature_names = tfidf_vectorizer.get_feature_names_out()
 
-    # 转换为数组形式
+    # Convert to array
     tfidf_array = tfidf_matrix.toarray()
     print("Feature Names：\n", feature_names)
     print("TF-IDF Matrix：\n", tfidf_array)
-    # 计算TF-IDF矩阵
+    # Calculate the TF-IDF Matrix
     tfidf_matrix = tfidf_vectorizer.fit_transform(preprocessed_docs)
-    # 获取特征名称
+    # Get feature name
     feature_names = tfidf_vectorizer.get_feature_names_out()
     # top_n
     top_n = 3
-    # 提取每篇文档的关键词
+    # 提取每篇文件的關鍵字
     keywords = []
     for row in tfidf_matrix:
         row_data = row.toarray().flatten()
@@ -203,16 +232,13 @@ def read_text_file(path_file):
 
 # preprocess the text
 def preprocess_text(text):
-    # 转小写
+    # 轉 lower case
     text = text.lower()
-    # 去除标点符号
+    # remove Punctuation
     text = re.sub(f"[{re.escape(string.punctuation)}]", "", text)
-    # 去除停用词
+    # Remove stop words
     words = [word for word in text.split() if word not in ENGLISH_STOP_WORDS]
     return " ".join(words)
-
-
-
 
 
 # StartUp Of Program
