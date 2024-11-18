@@ -1,0 +1,18 @@
+<div>
+    <br/>
+    <br/>
+    <br/>
+    <h1 style="color:#000">文件上傳</h1>
+    <input type="file" (change)="onFileSelected($event)" style="font-size:60px;"/>
+    <div *ngIf="response" style="color:black;">
+      <h2>上傳結果</h2>
+      <pre>{{ response | json }}</pre>
+      <br/>
+      <br/>
+      <br/>
+      <ul *ngIf="response.result_of_keyword_extraction">
+         <li style="font-size:36px;" *ngFor="let item of response.result_of_keyword_extraction[0]"> {{ item }} </li>
+      </ul>
+    </div>
+ </div>
+  
