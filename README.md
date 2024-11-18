@@ -84,3 +84,6 @@ $ npx devextreme-cli@21.1 new angular-app ClientAppDevEx
 
 ​			<img src="README_IMGs/README/image-20241119031418581.png" alt="image-20241119031418581" style="zoom: 67%;" />
 
+
+
+Have Not Verified from GitHub, so zip file for download to deploy
