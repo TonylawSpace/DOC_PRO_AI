@@ -1,5 +1,15 @@
 # ClientAppKeyWord DEPLOY
 
+
+
+## System Desciption
+
+Design and implement a simple AI-powered text analysis system that can perform one of the following tasks:
+
+Keyword Extraction: Identify and extract the most important keywords or phrases from a text.
+
+
+
 ## ENV SETTING
 
 ```
