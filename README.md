@@ -87,3 +87,5 @@ $ npx devextreme-cli@21.1 new angular-app ClientAppDevEx
 
 
 Have Not Verified from GitHub, so zip file for download to deploy
+
+[ClientAppKeyWord_KeyWorkExtraction_Python.rar](ClientAppKeyWord_KeyWorkExtraction_Python.rar)
